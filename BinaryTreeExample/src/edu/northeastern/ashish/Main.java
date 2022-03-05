@@ -1,11 +1,41 @@
 package edu.northeastern.ashish;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
 public class Main {
 
     public static void main(String[] args) {
+
         BinaryTree<Integer> tree = new BinaryTree<>();
         tree.root = initializeTree();
-        System.out.println(tree.sizePreOrder());
+
+        tree.populateNextRight();
+
+        System.out.println();
+
+
+
+//        Integer[] preOrder = {5,4,11,7,2,8,13,4,1};
+//        Integer[] inOrder = {7,11,2,4,5,13,8,4,1};
+//
+//        BinaryTree<Integer> tree = new BinaryTree<>();
+//        Node<Integer> node = tree.getTreeFromPreOrderAndInOrder(preOrder, inOrder);
+//
+//        tree.root = node;
+//
+//        ArrayList<ArrayList<Integer>> allPaths = tree.getAllPaths();
+//
+//        for (ArrayList<Integer> path : allPaths) {
+//            System.out.println(path.toString());
+//        }
+
+
+
+
+//        BinaryTree<Integer> tree = new BinaryTree<>();
+//        tree.root = initializeTree();
+//        System.out.println(tree.sizePreOrder());
 
 //        Node<Integer> node1 = getNode1();
 //        Node<Integer> node2 = getNode2();
