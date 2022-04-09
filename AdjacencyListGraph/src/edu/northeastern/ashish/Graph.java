@@ -118,7 +118,8 @@ public class Graph {
         if(path.contains(current)){
             return;
         }
-        if(dest == current){// we have reached our destination
+
+        if(dest.compareTo(current) == 0){// we have reached our destination
             for (String str : path) {
                 System.out.print(str + "->");
             }
@@ -136,6 +137,87 @@ public class Graph {
 
         // Remove the current node since we have already visited all its neighbours
         path.remove(current);
+    }
+
+
+    public boolean containsCycleUnionFind(){
+
+        LinkedList<Edge>  edges = new LinkedList<>();
+
+        for (Node node : nodes.values()) {
+            node.parent = node;
+            node.rank = 1;
+            for (Edge edge : node.neighbours) {
+                edges.add(edge);
+            }
+        }
+
+        for (Edge edge : edges) {
+            Node node1 = nodes.get(edge.startNode);
+            Node node2 = nodes.get(edge.endNode);
+
+            if(node1.parent == node2.parent){
+                return true;
+            }
+            union(node1, node2);
+
+        }
+        return false;
+
+    }
+
+
+    private void union(Node node1, Node node2){
+
+        Node parent1 = findParent(node1);
+        Node parent2 = findParent(node2);
+        if(parent1 == parent2){
+            return;
+        }
+        if(parent1.rank >= parent2.rank){
+            parent1.rank ++;
+            parent2.parent = parent1;
+        }else{
+            parent1.parent = parent2;
+            parent2.rank ++;
+        }
+
+
+
+    }
+
+    private Node findParent(Node node){
+        if(node == node.parent){
+            return node;
+        }
+        return findParent(node.parent);
+    }
+
+    private ArrayList<Node> getNeighbours(Node node){
+        ArrayList<Node> neighbours = new ArrayList<>();
+        for (Edge edge : node.neighbours) {
+            neighbours.add(nodes.get(edge.endNode));
+        }
+        return neighbours;
+    }
+
+    public void topologicalSort(Node node){
+        Stack<Node> stack = new Stack<>();
+        topologicalSort(node, stack);
+
+        while(!stack.isEmpty()){
+            System.out.println(stack.pop().name + ", ");
+        }
+        System.out.println();
+    }
+
+    private void topologicalSort(Node node, Stack<Node> stack){
+        for (Node n : getNeighbours(node)) {
+           if(!stack.contains(n)){
+               topologicalSort(n, stack);
+           }
+        }
+        stack.push(node);
     }
 
 }
